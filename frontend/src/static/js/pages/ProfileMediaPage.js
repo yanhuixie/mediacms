@@ -17,12 +17,12 @@ function EmptyChannelMedia(props) {
     <LinksConsumer>
       {(links) => (
         <div className="empty-media empty-channel-media">
-          <div className="welcome-title">Welcome {props.name}</div>
+          <div className="welcome-title">欢迎 {props.name}</div>
           <div className="start-uploading">
-            Start uploading media and sharing your work. Media that you upload will show up here.
+            开始上传媒体和分享你的工作。你上传的媒体会显示在这里。
           </div>
-          <a href={links.user.addMedia} title="Upload media" className="button-link">
-            <i className="material-icons" data-icon="video_call"></i>UPLOAD MEDIA
+          <a href={links.user.addMedia} title="上传媒体" className="button-link">
+            <i className="material-icons" data-icon="video_call"></i>上传媒体
           </a>
         </div>
       )}

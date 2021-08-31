@@ -26,7 +26,7 @@
 		<div class="media-uploader-wrap">
 			<div class="media-uploader-top-wrap">
 				<div class="media-uploader-top-left-wrap">
-					<h1>Upload media files</h1>
+					<h1>上传媒体文件</h1>
 				</div>
 				<div class="media-uploader-top-right-wrap"> </div>
 			</div>
@@ -38,10 +38,10 @@
 								<div class="media-drag-drop-content">
 									<div class="media-drag-drop-content-inner">
 										<span><i class="material-icons">cloud_upload</i></span>
-										<span>Drag and drop files</span>
-										<span>or</span>
+										<span>拖放文件</span>
+										<span>或者</span>
 										<span class="browse-files-btn-wrap">
-											<span class="qq-upload-button-selector">Browse your files</span>
+											<span class="qq-upload-button-selector">浏览文件</span>
 										</span>
 										<div class="qq-upload-drop-area-selector media-dropzone" qq-hide-dropzone>
 											<span class="qq-upload-drop-area-text-selector"></span>
@@ -119,7 +119,7 @@
 
 		<br>
 
-		<a href='/contact'>Contact</a> the admin owners for more information.
+		<a href='/contact'>联系</a> 管理员所有者以获得更多信息。
 
 	{% endif %}
 
@@ -128,20 +128,20 @@
 	<div class="user-action-form-wrap">
 		<div class="user-action-form-inner">
 
-			<h1>Sign In</h1>
+			<h1>登录</h1>
 
-			Please login or register before you upload a media!
+			上传媒体前，请先登入或注册!
 
 			{% url 'upload_media' as redirect_url %}
 
-			<p>If you have not created an account yet, then please <a href="{% url 'account_signup' %}?next={{ redirect_url }}">sign up</a> first.</p>
+			<p>如果您还没有创建一个帐户，请先 <a href="{% url 'account_signup' %}?next={{ redirect_url }}">注册</a> 。</p>
 
 			<form class="login" method="POST" action="{% url 'account_login' %}">
 				{% csrf_token %}
 				{{ form.as_p }}
 				<input type="hidden" name="next" value="{{ redirect_url }}" />
-				<a class="button secondaryAction" href="{% url 'account_reset_password' %}">Forgot Password?</a>
-				<button class="primaryAction" type="submit">Sign In</button>
+				<a class="button secondaryAction" href="{% url 'account_reset_password' %}">忘记密码?</a>
+				<button class="primaryAction" type="submit">登录</button>
 			</form>
 
 		</div>

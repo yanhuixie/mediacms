@@ -195,12 +195,12 @@ export default function ViewerInfoContent(props) {
             </button>
           ) : null}
           {tagsContent.length ? (
-            <MediaMetaField value={tagsContent} title={1 < tagsContent.length ? 'Tags' : 'Tag'} id="tags" />
+            <MediaMetaField value={tagsContent} title={1 < tagsContent.length ? '标签' : '标签'} id="tags" />
           ) : null}
           {categoriesContent.length ? (
             <MediaMetaField
               value={categoriesContent}
-              title={1 < categoriesContent.length ? 'Categories' : 'Category'}
+              title={1 < categoriesContent.length ? '分类' : '分类'}
               id="categories"
             />
           ) : null}
@@ -215,14 +215,14 @@ export default function ViewerInfoContent(props) {
               ) : null}
 
               <PopupTrigger contentRef={popupContentRef}>
-                <button className="remove-media">DELETE MEDIA</button>
+                <button className="remove-media">删除媒体</button>
               </PopupTrigger>
 
               <PopupContent contentRef={popupContentRef}>
                 <PopupMain>
                   <div className="popup-message">
-                    <span className="popup-message-title">Media removal</span>
-                    <span className="popup-message-main">You're willing to remove media permanently?</span>
+                    <span className="popup-message-title">媒体删除</span>
+                    <span className="popup-message-main">你希望永久删除媒体吗?</span>
                   </div>
                   <hr />
                   <span className="popup-message-bottom">

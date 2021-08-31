@@ -33,28 +33,28 @@ RE_TIMECODE = re.compile(r"(\d+:\d+:\d+.\d+)")
 # this is used by Media and Encoding models
 # reflects media encoding status for objects
 MEDIA_ENCODING_STATUS = (
-    ("pending", "Pending"),
-    ("running", "Running"),
-    ("fail", "Fail"),
-    ("success", "Success"),
+    ("pending", "等待中"),
+    ("running", "执行中"),
+    ("fail", "执行失败"),
+    ("success", "执行成功"),
 )
 
 # the media state of a Media object
 # this is set by default according to the portal workflow
 MEDIA_STATES = (
-    ("private", "Private"),
-    ("public", "Public"),
-    ("unlisted", "Unlisted"),
+    ("private", "私有"),
+    ("public", "公开"),
+    ("unlisted", "未加入列表"),
 )
 
 # each uploaded Media gets a media_type hint
 # by helpers.get_file_type
 
 MEDIA_TYPES_SUPPORTED = (
-    ("video", "Video"),
-    ("image", "Image"),
-    ("pdf", "Pdf"),
-    ("audio", "Audio"),
+    ("video", "视频"),
+    ("image", "图片"),
+    ("pdf", "PDF"),
+    ("audio", "音频"),
 )
 
 ENCODE_EXTENSIONS = (
@@ -118,66 +118,69 @@ def category_thumb_path(instance, filename):
 class Media(models.Model):
     """The most important model for MediaCMS"""
 
-    add_date = models.DateTimeField("Date produced", blank=True, null=True, db_index=True)
+    add_date = models.DateTimeField("产生日期", blank=True, null=True, db_index=True)
 
-    allow_download = models.BooleanField(default=True, help_text="Whether option to download media is shown")
+    allow_download = models.BooleanField("允许下载", default=True, help_text="是否显示下载媒体选项")
 
-    category = models.ManyToManyField("Category", blank=True, help_text="Media can be part of one or more categories")
+    category = models.ManyToManyField("Category", blank=True, help_text="媒体可以是一个或多个类别的一部分")
 
     channel = models.ForeignKey(
         "users.Channel",
         on_delete=models.CASCADE,
         blank=True,
         null=True,
-        help_text="Media can exist in one or no Channels",
+        help_text="媒体可以存在于一个通道中或没有",
     )
 
-    description = models.TextField(blank=True)
+    description = models.TextField("描述", blank=True)
 
-    dislikes = models.IntegerField(default=0)
+    dislikes = models.IntegerField("不喜欢", default=0)
 
-    duration = models.IntegerField(default=0)
+    duration = models.IntegerField("时长", default=0)
 
-    edit_date = models.DateTimeField(auto_now=True)
+    edit_date = models.DateTimeField("编辑日时", auto_now=True)
 
-    enable_comments = models.BooleanField(default=True, help_text="Whether comments will be allowed for this media")
+    enable_comments = models.BooleanField("启用评论", default=True, help_text="是否允许对该媒体发表评论")
 
-    encoding_status = models.CharField(max_length=20, choices=MEDIA_ENCODING_STATUS, default="pending", db_index=True)
+    encoding_status = models.CharField("编码状态", max_length=20, choices=MEDIA_ENCODING_STATUS, default="pending", db_index=True)
 
     featured = models.BooleanField(
+        "精选",
         default=False,
         db_index=True,
-        help_text="Whether media is globally featured by a MediaCMS editor",
+        help_text="是否被编辑全局精选",
     )
 
-    friendly_token = models.CharField(blank=True, max_length=12, db_index=True, help_text="Identifier for the Media")
+    friendly_token = models.CharField("友善Token", blank=True, max_length=12, db_index=True, help_text="媒体标识符")
 
-    hls_file = models.CharField(max_length=1000, blank=True, help_text="Path to HLS file for videos")
+    hls_file = models.CharField("HLS文件", max_length=1000, blank=True, help_text="视频的HLS文件的路径")
 
     is_reviewed = models.BooleanField(
+        "已审查",
         default=settings.MEDIA_IS_REVIEWED,
         db_index=True,
-        help_text="Whether media is reviewed, so it can appear on public listings",
+        help_text="媒体是否经过审查，才能出现在公开列表中",
     )
 
     license = models.ForeignKey("License", on_delete=models.CASCADE, db_index=True, blank=True, null=True)
 
-    likes = models.IntegerField(db_index=True, default=1)
+    likes = models.IntegerField("喜欢", db_index=True, default=1)
 
-    listable = models.BooleanField(default=False, help_text="Whether it will appear on listings")
+    listable = models.BooleanField("显示在列表", default=False, help_text="是否可以显示在列表")
 
-    md5sum = models.CharField(max_length=50, blank=True, null=True, help_text="Not exposed, used internally")
+    md5sum = models.CharField("MD5", max_length=50, blank=True, null=True, help_text="不外露，内部使用")
 
     media_file = models.FileField(
-        "media file",
+        "媒体文件",
         upload_to=original_media_file_path,
         max_length=500,
-        help_text="media file",
+        help_text="媒体文件",
     )
 
-    media_info = models.TextField(blank=True, help_text="extracted media metadata info")
+    media_info = models.TextField("媒体信息", blank=True, help_text="提取的媒体元数据信息")
 
     media_type = models.CharField(
+        "媒体类型",
         max_length=20,
         blank=True,
         choices=MEDIA_TYPES_SUPPORTED,
@@ -185,90 +188,99 @@ class Media(models.Model):
         default="video",
     )
 
-    password = models.CharField(max_length=100, blank=True, help_text="password for private media")
+    password = models.CharField("密码", max_length=100, blank=True, help_text="私有媒体密码")
 
     preview_file_path = models.CharField(
+        "预览文件路径",
         max_length=500,
         blank=True,
-        help_text="preview gif for videos, path in filesystem",
+        help_text="预览GIF视频，文件系统中的路径",
     )
 
     poster = ProcessedImageField(
+        verbose_name="发件人",
         upload_to=original_thumbnail_file_path,
         processors=[ResizeToFit(width=720, height=None)],
         format="JPEG",
         options={"quality": 95},
         blank=True,
         max_length=500,
-        help_text="media extracted big thumbnail, shown on media page",
+        help_text="媒体提取大缩略图，显示在媒体页",
     )
 
     rating_category = models.ManyToManyField(
         "RatingCategory",
+        verbose_name="评分类别",
         blank=True,
-        help_text="Rating category, if media Rating is allowed",
+        help_text="评分类别，如果媒体评分是允许的",
     )
 
-    reported_times = models.IntegerField(default=0, help_text="how many time a Medis is reported")
+    reported_times = models.IntegerField("报告次数", default=0, help_text="媒体被报告了多少次")
 
     search = SearchVectorField(
+        verbose_name="搜索",
         null=True,
-        help_text="used to store all searchable info and metadata for a Media",
+        help_text="用于存储媒体的所有可搜索信息和元数据",
     )
 
     size = models.CharField(
+        "大小",
         max_length=20,
         blank=True,
         null=True,
-        help_text="media size in bytes, automatically calculated",
+        help_text="以字节为单位的媒体大小，自动计算",
     )
 
     sprites = models.FileField(
+        "精灵",
         upload_to=original_thumbnail_file_path,
         blank=True,
         max_length=500,
-        help_text="sprites file, only for videos, displayed on the video player",
+        help_text="精灵文件，仅用于视频，显示在视频播放器",
     )
 
     state = models.CharField(
+        "状态",
         max_length=20,
         choices=MEDIA_STATES,
         default=helpers.get_portal_workflow(),
         db_index=True,
-        help_text="state of Media",
+        help_text="媒体状态",
     )
 
-    tags = models.ManyToManyField("Tag", blank=True, help_text="select one or more out of the existing tags")
+    tags = models.ManyToManyField("Tag", blank=True, help_text="从现有标记中选择一个或多个")
 
-    title = models.CharField(max_length=100, help_text="media title", blank=True, db_index=True)
+    title = models.CharField("标题", max_length=100, help_text="媒体标题", blank=True, db_index=True)
 
     thumbnail = ProcessedImageField(
+        verbose_name="缩略图",
         upload_to=original_thumbnail_file_path,
         processors=[ResizeToFit(width=344, height=None)],
         format="JPEG",
         options={"quality": 95},
         blank=True,
         max_length=500,
-        help_text="media extracted small thumbnail, shown on listings",
+        help_text="媒体提取小缩略图，显示在列表",
     )
 
-    thumbnail_time = models.FloatField(blank=True, null=True, help_text="Time on video that a thumbnail will be taken")
+    thumbnail_time = models.FloatField("缩略图时刻", blank=True, null=True, help_text="在视频上的时刻，将提取一个缩略图")
 
-    uid = models.UUIDField(unique=True, default=uuid.uuid4, help_text="A unique identifier for the Media")
+    uid = models.UUIDField("UUID", unique=True, default=uuid.uuid4, help_text="媒体的唯一标识符")
 
     uploaded_thumbnail = ProcessedImageField(
+        verbose_name="上传的缩略图",
         upload_to=original_thumbnail_file_path,
         processors=[ResizeToFit(width=344, height=None)],
         format="JPEG",
         options={"quality": 85},
         blank=True,
         max_length=500,
-        help_text="thumbnail from uploaded_poster field",
+        help_text="来自 uploaded_poster 字段的缩略图",
     )
 
     uploaded_poster = ProcessedImageField(
-        verbose_name="Upload image",
-        help_text="This image will characterize the media",
+        verbose_name="上传图片",
+        help_text="这张图片将成为媒体的特征",
         upload_to=original_thumbnail_file_path,
         processors=[ResizeToFit(width=720, height=None)],
         format="JPEG",
@@ -277,13 +289,13 @@ class Media(models.Model):
         max_length=500,
     )
 
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE, help_text="user that uploads the media")
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, help_text="上传媒体的用户")
 
-    user_featured = models.BooleanField(default=False, help_text="Featured by the user")
+    user_featured = models.BooleanField("用户精选", default=False, help_text="被用户精选")
 
-    video_height = models.IntegerField(default=1)
+    video_height = models.IntegerField("视频高", default=1)
 
-    views = models.IntegerField(db_index=True, default=1)
+    views = models.IntegerField("查看", db_index=True, default=1)
 
     # keep track if media file has changed, on saves
     __original_media_file = None
@@ -297,6 +309,8 @@ class Media(models.Model):
             # removed
             GinIndex(fields=["search"])
         ]
+        verbose_name = '媒体'
+        verbose_name_plural = verbose_name
 
     def __str__(self):
         return self.title
@@ -887,31 +901,36 @@ class Media(models.Model):
 class License(models.Model):
     """A Base license model to be used in Media"""
 
-    title = models.CharField(max_length=100, unique=True)
-    description = models.TextField(blank=True)
+    title = models.CharField("标题", max_length=100, unique=True)
+    description = models.TextField("简介", blank=True)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = '许可证'
+        verbose_name_plural = verbose_name
 
 
 class Category(models.Model):
     """A Category base model"""
 
-    uid = models.UUIDField(unique=True, default=uuid.uuid4)
+    uid = models.UUIDField("UUID", unique=True, default=uuid.uuid4)
 
-    add_date = models.DateTimeField(auto_now_add=True)
+    add_date = models.DateTimeField("添加日时", auto_now_add=True)
 
-    title = models.CharField(max_length=100, unique=True, db_index=True)
+    title = models.CharField("标题", max_length=100, unique=True, db_index=True)
 
-    description = models.TextField(blank=True)
+    description = models.TextField("简介", blank=True)
 
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, blank=True, null=True, verbose_name='用户')
 
-    is_global = models.BooleanField(default=False, help_text="global categories or user specific")
+    is_global = models.BooleanField("是否全局", default=False, help_text="全局类别或特定于用户")
 
-    media_count = models.IntegerField(default=0, help_text="number of media")
+    media_count = models.IntegerField("媒体数量", default=0, help_text="媒体数量统计")
 
     thumbnail = ProcessedImageField(
+        verbose_name="缩略图",
         upload_to=category_thumb_path,
         processors=[ResizeToFit(width=344, height=None)],
         format="JPEG",
@@ -919,14 +938,15 @@ class Category(models.Model):
         blank=True,
     )
 
-    listings_thumbnail = models.CharField(max_length=400, blank=True, null=True, help_text="Thumbnail to show on listings")
+    listings_thumbnail = models.CharField("列表缩略图", max_length=400, blank=True, null=True, help_text="缩略图显示在列表")
 
     def __str__(self):
         return self.title
 
     class Meta:
         ordering = ["title"]
-        verbose_name_plural = "Categories"
+        verbose_name = '分类'
+        verbose_name_plural = verbose_name
 
     def get_absolute_url(self):
         return reverse("search") + "?c={0}".format(self.title)
@@ -966,13 +986,14 @@ class Category(models.Model):
 class Tag(models.Model):
     """A Tag model"""
 
-    title = models.CharField(max_length=100, unique=True, db_index=True)
+    title = models.CharField("标题", max_length=100, unique=True, db_index=True)
 
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, blank=True, null=True)
 
-    media_count = models.IntegerField(default=0, help_text="number of media")
+    media_count = models.IntegerField("媒体数量", default=0, help_text="number of media")
 
     listings_thumbnail = models.CharField(
+        "列表缩略图",
         max_length=400,
         blank=True,
         null=True,
@@ -985,6 +1006,8 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ["title"]
+        verbose_name = '标签'
+        verbose_name_plural = verbose_name
 
     def get_absolute_url(self):
         return reverse("search") + "?t={0}".format(self.title)
@@ -1017,65 +1040,67 @@ class EncodeProfile(models.Model):
     keeps information for each profile
     """
 
-    name = models.CharField(max_length=90)
+    name = models.CharField("名称", max_length=90)
 
-    extension = models.CharField(max_length=10, choices=ENCODE_EXTENSIONS)
+    extension = models.CharField("扩展名", max_length=10, choices=ENCODE_EXTENSIONS)
 
-    resolution = models.IntegerField(choices=ENCODE_RESOLUTIONS, blank=True, null=True)
+    resolution = models.IntegerField("分辨率", choices=ENCODE_RESOLUTIONS, blank=True, null=True)
 
-    codec = models.CharField(max_length=10, choices=CODECS, blank=True, null=True)
+    codec = models.CharField("编码器", max_length=10, choices=CODECS, blank=True, null=True)
 
-    description = models.TextField(blank=True, help_text="description")
+    description = models.TextField("简介", blank=True, help_text="description")
 
-    active = models.BooleanField(default=True)
+    active = models.BooleanField("活动的", default=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
         ordering = ["resolution"]
+        verbose_name = '编码配置'
+        verbose_name_plural = verbose_name
 
 
 class Encoding(models.Model):
     """Encoding Media Instances"""
 
-    add_date = models.DateTimeField(auto_now_add=True)
+    add_date = models.DateTimeField("添加日时", auto_now_add=True)
 
-    commands = models.TextField(blank=True, help_text="commands run")
+    commands = models.TextField("命令", blank=True, help_text="被执行的命令")
 
-    chunk = models.BooleanField(default=False, db_index=True, help_text="is chunk?")
+    chunk = models.BooleanField("分片", default=False, db_index=True, help_text="是否分片(chunk)?")
 
-    chunk_file_path = models.CharField(max_length=400, blank=True)
+    chunk_file_path = models.CharField("分片文件路径", max_length=400, blank=True)
 
-    chunks_info = models.TextField(blank=True)
+    chunks_info = models.TextField("分片信息", blank=True)
 
-    logs = models.TextField(blank=True)
+    logs = models.TextField("日志", blank=True)
 
-    md5sum = models.CharField(max_length=50, blank=True, null=True)
+    md5sum = models.CharField("MD5", max_length=50, blank=True, null=True)
 
     media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="encodings")
 
-    media_file = models.FileField("encoding file", upload_to=encoding_media_file_path, blank=True, max_length=500)
+    media_file = models.FileField("媒体文件", "encoding file", upload_to=encoding_media_file_path, blank=True, max_length=500)
 
     profile = models.ForeignKey(EncodeProfile, on_delete=models.CASCADE)
 
-    progress = models.PositiveSmallIntegerField(default=0)
+    progress = models.PositiveSmallIntegerField("进度", default=0)
 
-    update_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField("更新日时", auto_now=True)
 
-    retries = models.IntegerField(default=0)
+    retries = models.IntegerField("重试次数", default=0)
 
-    size = models.CharField(max_length=20, blank=True)
+    size = models.CharField("大小", max_length=20, blank=True)
 
-    status = models.CharField(max_length=20, choices=MEDIA_ENCODING_STATUS, default="pending")
+    status = models.CharField("状态", max_length=20, choices=MEDIA_ENCODING_STATUS, default="pending")
 
-    temp_file = models.CharField(max_length=400, blank=True)
+    temp_file = models.CharField("临时文件", max_length=400, blank=True)
 
-    task_id = models.CharField(max_length=100, blank=True)
+    task_id = models.CharField("任务ID", max_length=100, blank=True)
 
-    total_run_time = models.IntegerField(default=0)
+    total_run_time = models.IntegerField("总运行时间", default=0)
 
-    worker = models.CharField(max_length=100, blank=True)
+    worker = models.CharField("Worker", max_length=100, blank=True)
 
     @property
     def media_encoding_url(self):
@@ -1116,6 +1141,10 @@ class Encoding(models.Model):
     def __str__(self):
         return "{0}-{1}".format(self.profile.name, self.media.title)
 
+    class Meta:
+        verbose_name = '编码'
+        verbose_name_plural = verbose_name
+
     def get_absolute_url(self):
         return reverse("api_get_encoding", kwargs={"encoding_id": self.id})
 
@@ -1125,12 +1154,14 @@ class Language(models.Model):
     to be used with Subtitles
     """
 
-    code = models.CharField(max_length=12, help_text="language code")
+    code = models.CharField("代号", max_length=12, help_text="语言代号")
 
-    title = models.CharField(max_length=100, help_text="language code")
+    title = models.CharField("标题", max_length=100, help_text="语言标题")
 
     class Meta:
         ordering = ["id"]
+        verbose_name = '语言'
+        verbose_name_plural = verbose_name
 
     def __str__(self):
         return "{0}-{1}".format(self.code, self.title)
@@ -1144,7 +1175,7 @@ class Subtitle(models.Model):
     media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="subtitles")
 
     subtitle_file = models.FileField(
-        "Subtitle/CC file",
+        "字幕/CC文件",
         help_text="File has to be WebVTT format",
         upload_to=subtitles_file_path,
         max_length=500,
@@ -1155,6 +1186,10 @@ class Subtitle(models.Model):
     def __str__(self):
         return "{0}-{1}".format(self.media.title, self.language.title)
 
+    class Meta:
+        verbose_name = '字幕'
+        verbose_name_plural = verbose_name
+
 
 class RatingCategory(models.Model):
     """Rating Category
@@ -1163,14 +1198,16 @@ class RatingCategory(models.Model):
     will be shown to the media if they are enabled
     """
 
-    description = models.TextField(blank=True)
+    description = models.TextField("简介", blank=True)
 
-    enabled = models.BooleanField(default=True)
+    enabled = models.BooleanField("启用的", default=True)
 
-    title = models.CharField(max_length=200, unique=True, db_index=True)
+    title = models.CharField("标题", max_length=200, unique=True, db_index=True)
 
     class Meta:
-        verbose_name_plural = "Rating Categories"
+        verbose_name = '评分类别'
+        verbose_name_plural = verbose_name
+        # verbose_name_plural = "Rating Categories"
 
     def __str__(self):
         return "{0}".format(self.title)
@@ -1178,24 +1215,26 @@ class RatingCategory(models.Model):
 
 def validate_rating(value):
     if -1 >= value or value > 5:
-        raise ValidationError("score has to be between 0 and 5")
+        raise ValidationError("分数必须在0到5之间")
 
 
 class Rating(models.Model):
     """User Rating"""
 
-    add_date = models.DateTimeField(auto_now_add=True)
+    add_date = models.DateTimeField("添加日期", auto_now_add=True)
 
     media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="ratings")
 
     rating_category = models.ForeignKey(RatingCategory, on_delete=models.CASCADE)
 
-    score = models.IntegerField(validators=[validate_rating])
+    score = models.IntegerField("评分", validators=[validate_rating])
 
     user = models.ForeignKey("users.User", on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name_plural = "Ratings"
+        verbose_name = '评分'
+        verbose_name_plural = verbose_name
+        # verbose_name_plural = "Ratings"
         indexes = [
             models.Index(fields=["user", "media"]),
         ]
@@ -1208,22 +1247,26 @@ class Rating(models.Model):
 class Playlist(models.Model):
     """Playlists model"""
 
-    add_date = models.DateTimeField(auto_now_add=True, db_index=True)
+    add_date = models.DateTimeField("添加日时", auto_now_add=True, db_index=True)
 
-    description = models.TextField(blank=True, help_text="description")
+    description = models.TextField("简介", blank=True, help_text="description")
 
-    friendly_token = models.CharField(blank=True, max_length=12, db_index=True)
+    friendly_token = models.CharField("友善Token", blank=True, max_length=12, db_index=True)
 
     media = models.ManyToManyField(Media, through="playlistmedia", blank=True)
 
-    title = models.CharField(max_length=100, db_index=True)
+    title = models.CharField("标题", max_length=100, db_index=True)
 
-    uid = models.UUIDField(unique=True, default=uuid.uuid4)
+    uid = models.UUIDField("UUID", unique=True, default=uuid.uuid4)
 
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, db_index=True, related_name="playlists")
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = '播放列表'
+        verbose_name_plural = verbose_name
 
     @property
     def media_count(self):
@@ -1283,35 +1326,41 @@ class Playlist(models.Model):
 class PlaylistMedia(models.Model):
     """Helper model to store playlist specific media"""
 
-    action_date = models.DateTimeField(auto_now=True)
+    action_date = models.DateTimeField("启用日时", auto_now=True)
 
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
 
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
 
-    ordering = models.IntegerField(default=1)
+    ordering = models.IntegerField("排序", default=1)
 
     class Meta:
         ordering = ["ordering", "-action_date"]
+        verbose_name = '播放列表媒体'
+        verbose_name_plural = verbose_name
 
 
 class Comment(MPTTModel):
     """Comments model"""
 
-    add_date = models.DateTimeField(auto_now_add=True)
+    add_date = models.DateTimeField("添加日时", auto_now_add=True)
 
     media = models.ForeignKey(Media, on_delete=models.CASCADE, db_index=True, related_name="comments")
 
     parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
 
-    text = models.TextField(help_text="text")
+    text = models.TextField("文本", help_text="文本")
 
-    uid = models.UUIDField(unique=True, default=uuid.uuid4)
+    uid = models.UUIDField("UUID", unique=True, default=uuid.uuid4)
 
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, db_index=True)
 
     class MPTTMeta:
         order_insertion_by = ["add_date"]
+
+    class Meta:
+        verbose_name = '评论'
+        verbose_name_plural = verbose_name
 
     def __str__(self):
         return "On {0} by {1}".format(self.media.title, self.user.username)

@@ -9,7 +9,7 @@ interface CategoriesPageProps {
   title?: string;
 }
 
-export const CategoriesPage: React.FC<CategoriesPageProps> = ({ id = 'categories', title = 'Categories' }) => (
+export const CategoriesPage: React.FC<CategoriesPageProps> = ({ id = 'categories', title = '分类' }) => (
   <Page id={id}>
     <ApiUrlConsumer>
       {(apiUrl) => (

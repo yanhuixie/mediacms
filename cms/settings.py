@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from celery.schedules import crontab
 
@@ -7,8 +8,8 @@ DEBUG = False
 # PORTAL NAME, this is the portal title and
 # is also shown on several places as emails
 PORTAL_NAME = "MediaCMS"
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "Europe/London"
+LANGUAGE_CODE = "zh-hans"
+TIME_ZONE = "Asia/Shanghai"
 
 # who can add media
 # valid options include 'all', 'email_verified', 'advancedUser'
@@ -45,7 +46,7 @@ ALLOW_RATINGS_CONFIRMED_EMAIL_ONLY = True
 # ip of the server should be part of this
 ALLOWED_HOSTS = ["*", "mediacms.io", "127.0.0.1", "localhost"]
 
-FRONTEND_HOST = "http://localhost"
+FRONTEND_HOST = "http://localhost:8000"
 # this variable - along with SSL_FRONTEND_HOST is used on several places
 # as email where a URL need appear etc
 
@@ -139,12 +140,17 @@ SECRET_KEY = "2dii4cog7k=5n37$fz)8dst)kg(s3&10)^qa*gv(kk+nv-z&cu"
 # TODO: this needs to be changed!
 
 TEMP_DIRECTORY = "/tmp"  # Don't use a temp directory inside BASE_DIR!!!
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
+# print(f"BASE_DIR=[{BASE_DIR}]")
+
 STATIC_URL = "/static/"  # where js/css files are stored on the filesystem
 MEDIA_URL = "/media/"  # URL where static files are served from the server
-STATIC_ROOT = BASE_DIR + "/static/"
+
+STATIC_ROOT = BASE_DIR / 'static'
 # where uploaded + encoded media are stored
-MEDIA_ROOT = BASE_DIR + "/media_files/"
+MEDIA_ROOT = BASE_DIR / "media_files"
 
 # these used to be os.path.join(MEDIA_ROOT, "folder/") but update to
 # Django 3.1.9 requires not absolute paths to be utilized...
@@ -153,7 +159,8 @@ MEDIA_UPLOAD_DIR = "original/"
 MEDIA_ENCODING_DIR = "encoded/"
 THUMBNAIL_UPLOAD_DIR = f"{MEDIA_UPLOAD_DIR}/thumbnails/"
 SUBTITLES_UPLOAD_DIR = f"{MEDIA_UPLOAD_DIR}/subtitles/"
-HLS_DIR = os.path.join(MEDIA_ROOT, "hls/")
+# HLS_DIR = os.path.join(MEDIA_ROOT, "hls/")
+HLS_DIR = MEDIA_ROOT / "hls"
 
 FFMPEG_COMMAND = "ffmpeg"  # this is the path
 FFPROBE_COMMAND = "ffprobe"  # this is the path
@@ -350,9 +357,11 @@ FILE_UPLOAD_HANDLERS = [
     "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 ]
 
-LOGS_DIR = os.path.join(BASE_DIR, "logs")
+# LOGS_DIR = os.path.join(BASE_DIR, "logs")
+LOGS_DIR = BASE_DIR / "logs"
 
-error_filename = os.path.join(LOGS_DIR, "debug.log")
+# error_filename = os.path.join(LOGS_DIR, "debug.log")
+error_filename = LOGS_DIR / "debug.log"
 if not os.path.exists(LOGS_DIR):
     try:
         os.mkdir(LOGS_DIR)
@@ -385,15 +394,15 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "mediacms",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-        "USER": "mediacms",
-        "PASSWORD": "mediacms",
+        "HOST": "192.168.1.46",
+        "PORT": "9020",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
     }
 }
 
 
-REDIS_LOCATION = "redis://127.0.0.1:6379/1"
+REDIS_LOCATION = "redis://192.168.1.46:9005/1"
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",

@@ -6,7 +6,7 @@ from .models import Channel, User
 
 
 class SignupForm(forms.Form):
-    name = forms.CharField(max_length=100, label="Name")
+    name = forms.CharField(max_length=100, label="姓名")
 
     def signup(self, request, user):
         user.name = self.cleaned_data["name"]

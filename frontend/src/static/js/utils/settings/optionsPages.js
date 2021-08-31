@@ -62,16 +62,16 @@ export function init(home, search, media, profile, VALID_PAGES) {
   }
 
   if ('' === PAGES.home.sections.latest.title) {
-    PAGES.home.sections.latest.title = void 0 !== VALID_PAGES.latest ? VALID_PAGES.latest.title : 'Latest';
+    PAGES.home.sections.latest.title = void 0 !== VALID_PAGES.latest ? VALID_PAGES.latest.title : '最新';
   }
 
   if ('' === PAGES.home.sections.featured.title) {
-    PAGES.home.sections.featured.title = void 0 !== VALID_PAGES.featured ? VALID_PAGES.featured.title : 'Featured';
+    PAGES.home.sections.featured.title = void 0 !== VALID_PAGES.featured ? VALID_PAGES.featured.title : '精选';
   }
 
   if ('' === PAGES.home.sections.recommended.title) {
     PAGES.home.sections.recommended.title =
-      void 0 !== VALID_PAGES.recommended ? VALID_PAGES.recommended.title : 'Recommended';
+      void 0 !== VALID_PAGES.recommended ? VALID_PAGES.recommended.title : '推荐';
   }
 
   if (void 0 !== media) {

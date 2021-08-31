@@ -26,7 +26,7 @@ export function ManageUsersItemHeader(props) {
           </span>
         </div>
       </div>
-      <div className="mi-username">Username</div>
+      <div className="mi-username">用户名</div>
       <div
         id="add_date"
         onClick={sortByColumn}
@@ -42,10 +42,10 @@ export function ManageUsersItemHeader(props) {
           </span>
         </div>
       </div>
-      {props.has_roles ? <div className="mi-role">Role</div> : null}
-      {props.has_verified ? <div className="mi-verified">Verified</div> : null}
-      {props.has_trusted ? <div className="mi-trusted">Trusted</div> : null}
-      <div className="mi-featured">Featured</div>
+      {props.has_roles ? <div className="mi-role">角色</div> : null}
+      {props.has_verified ? <div className="mi-verified">已校验</div> : null}
+      {props.has_trusted ? <div className="mi-trusted">已信任</div> : null}
+      <div className="mi-featured">已精选</div>
     </div>
   );
 }

@@ -16,6 +16,7 @@ from files.models import Category, Media, Tag
 
 class User(AbstractUser):
     logo = ProcessedImageField(
+        verbose_name="头像",
         upload_to="userlogos/%Y/%m/%d",
         processors=[ResizeToFill(200, 200)],
         default="userlogos/user.jpg",
@@ -23,27 +24,30 @@ class User(AbstractUser):
         options={"quality": 75},
         blank=True,
     )
-    description = models.TextField("About me", blank=True)
+    description = models.TextField("关于我", blank=True)
 
-    name = models.CharField("full name", max_length=250, db_index=True)
-    date_added = models.DateTimeField("date added", default=timezone.now, db_index=True)
-    is_featured = models.BooleanField("Is featured", default=False, db_index=True)
+    name = models.CharField("姓名", max_length=250, db_index=True)
+    date_added = models.DateTimeField("创建日时", default=timezone.now, db_index=True)
+    is_featured = models.BooleanField("是否精选", default=False, db_index=True)
 
-    title = models.CharField("Title", max_length=250, blank=True)
-    advancedUser = models.BooleanField("advanced user", default=False, db_index=True)
-    media_count = models.IntegerField(default=0)  # save number of videos
+    title = models.CharField("标题", max_length=250, blank=True)
+    advancedUser = models.BooleanField("高级用户", default=False, db_index=True)
+    media_count = models.IntegerField("媒体数量", default=0)  # save number of videos
     notification_on_comments = models.BooleanField(
-        "Whether you will receive email notifications for comments added to your content",
+        "评论时通知",
+        help_text="内容被评论时是否要收到电子邮件通知",
         default=True,
     )
-    location = models.CharField("Location", max_length=250, blank=True)
-    is_editor = models.BooleanField("MediaCMS Editor", default=False, db_index=True)
-    is_manager = models.BooleanField("MediaCMS Manager", default=False, db_index=True)
-    allow_contact = models.BooleanField("Whether allow contact will be shown on profile page", default=False)
+    location = models.CharField("位置", max_length=250, blank=True)
+    is_editor = models.BooleanField("内容编辑", default=False, db_index=True)
+    is_manager = models.BooleanField("经理", default=False, db_index=True)
+    allow_contact = models.BooleanField("是否允许联系", help_text="是否允许联系，将显示在个人资料页", default=False)
 
     class Meta:
         ordering = ["-date_added", "name"]
         indexes = [models.Index(fields=["-date_added", "name"])]
+        verbose_name = '用户'
+        verbose_name_plural = verbose_name
 
     def update_user_media(self):
         self.media_count = Media.objects.filter(listable=True, user=self).count()
@@ -112,13 +116,14 @@ class User(AbstractUser):
 
 
 class Channel(models.Model):
-    title = models.CharField(max_length=90, db_index=True)
-    description = models.TextField(blank=True, help_text="description")
+    title = models.CharField("标题", max_length=90, db_index=True)
+    description = models.TextField("简介", blank=True, help_text="description")
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name="channels")
-    add_date = models.DateTimeField(auto_now_add=True, db_index=True)
+    add_date = models.DateTimeField("创建日时", auto_now_add=True, db_index=True)
     subscribers = models.ManyToManyField(User, related_name="subscriptions", blank=True)
-    friendly_token = models.CharField(blank=True, max_length=12)
+    friendly_token = models.CharField("易记Token", blank=True, max_length=12)
     banner_logo = ProcessedImageField(
+        verbose_name="Banner Logo",
         upload_to="userlogos/%Y/%m/%d",
         processors=[ResizeToFill(900, 200)],
         default="userlogos/banner.jpg",
@@ -183,9 +188,9 @@ class Notification(models.Model):
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name="notifications")
-    action = models.CharField(max_length=30, blank=True)
-    notify = models.BooleanField(default=False)
-    method = models.CharField(max_length=20, choices=NOTIFICATION_METHODS, default="email")
+    action = models.CharField("动作", max_length=30, blank=True)
+    notify = models.BooleanField("已通知", default=False)
+    method = models.CharField("通知方法", max_length=20, choices=NOTIFICATION_METHODS, default="email")
 
     def save(self, *args, **kwargs):
         super(Notification, self).save(*args, **kwargs)

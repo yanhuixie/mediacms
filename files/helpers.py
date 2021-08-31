@@ -169,7 +169,10 @@ def rm_dir(directory):
 
 def url_from_path(filename):
     # TODO: find a way to preserver http - https ...
-    return "{0}{1}".format(settings.MEDIA_URL, filename.replace(settings.MEDIA_ROOT, ""))
+    path = filename.replace(str(settings.MEDIA_ROOT), "").replace("\\", "/")
+    if path[0] == '/':
+        path = path[1:]
+    return "{0}{1}".format(settings.MEDIA_URL, path)
 
 
 def create_temp_file(suffix=None, dir=settings.TEMP_DIRECTORY):

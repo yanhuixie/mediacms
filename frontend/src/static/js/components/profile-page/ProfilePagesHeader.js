@@ -161,7 +161,7 @@ class ProfileSearchBar extends React.PureComponent {
             ref="SearchInput"
             type="text"
             name="aq"
-            placeholder="Search"
+            placeholder="搜索"
             aria-label="Search"
             value={this.state.queryVal}
             onChange={this.onChange}
@@ -315,13 +315,13 @@ class NavMenuInlineTabs extends React.PureComponent {
             <InlineTab
               id="about"
               isActive={'about' === this.props.type}
-              label={'About' + (this.userIsAuthor ? ' Me' : '')}
+              label={'关于' + (this.userIsAuthor ? ' 我' : '')}
               link={LinksContext._currentValue.profile.about}
             />
             <InlineTab
               id="media"
               isActive={'media' === this.props.type}
-              label={(this.userIsAuthor ? 'My ' : '') + 'Media'}
+              label={(this.userIsAuthor ? '我的 ' : '') + '媒体'}
               link={LinksContext._currentValue.profile.media}
             />
 
@@ -329,7 +329,7 @@ class NavMenuInlineTabs extends React.PureComponent {
               <InlineTab
                 id="playlists"
                 isActive={'playlists' === this.props.type}
-                label={(this.userIsAuthor ? 'My ' : '') + 'Playlists'}
+                label={(this.userIsAuthor ? '我的 ' : '') + '播放列表'}
                 link={LinksContext._currentValue.profile.playlists}
               />
             ) : null}
@@ -388,7 +388,7 @@ function EditBannerButton(props) {
   }
   return (
     <a href={link} className="edit-channel" title="Edit banner">
-      EDIT BANNER
+      编辑 BANNER
     </a>
   );
 }
@@ -402,7 +402,7 @@ function EditProfileButton(props) {
 
   return (
     <a href={link} className="edit-profile" title="Edit profile">
-      EDIT PROFILE
+      编辑个人信息
     </a>
   );
 }

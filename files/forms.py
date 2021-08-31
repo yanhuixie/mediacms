@@ -9,7 +9,7 @@ class MultipleSelect(forms.CheckboxSelectMultiple):
 
 
 class MediaForm(forms.ModelForm):
-    new_tags = forms.CharField(label="Tags", help_text="a comma separated list of new tags.", required=False)
+    new_tags = forms.CharField(label="标签", help_text="逗号分隔的新标记列表", required=False)
 
     class Meta:
         model = Media
@@ -82,9 +82,9 @@ class ContactForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super(ContactForm, self).__init__(*args, **kwargs)
-        self.fields["name"].label = "Your name:"
-        self.fields["from_email"].label = "Your email:"
-        self.fields["message"].label = "Please add your message here and submit:"
+        self.fields["name"].label = "您的名称:"
+        self.fields["from_email"].label = "您的Email:"
+        self.fields["message"].label = "请在这里添加您的信息并提交:"
         self.user = user
         if user.is_authenticated:
             self.fields.pop("name")

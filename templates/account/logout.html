@@ -6,17 +6,17 @@
 <div class="user-action-form-wrap">
     <div class="user-action-form-inner">
 
-	<h1>Sign Out</h1>
+	<h1>注销</h1>
 
-		<p>Are you sure you want to sign out?</p>
+		<p>你确定要注销吗?</p>
 
 		<form method="post" class="logout" action="{% url 'account_logout' %}">
 		  {% csrf_token %}
 		  {% if redirect_field_value %}
 		  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
 		  {% endif %}
-		  <button type="submit">Sign Out</button>
-		  <a class="button secondaryAction" href="/">Cancel</a>
+		  <button type="submit">注销</button>
+		  <a class="button secondaryAction" href="/">取消</a>
 		</form>
 
     </div>

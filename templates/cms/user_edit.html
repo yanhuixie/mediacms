@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block headtitle %}Edit profile - {% endblock headtitle %}
+{% block headtitle %}编辑个人信息 - {% endblock headtitle %}
 
 {% block innercontent %}
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
@@ -8,11 +8,11 @@
 
 <div class="user-action-form-wrap">
 	<div class="user-action-form-inner">
-		<h1>Edit Profile</h1>
+		<h1>编辑个人信息</h1>
 		<form enctype="multipart/form-data" action="" method="post" class="post-form">
 			{% csrf_token %}
 			{{ form.as_p }}
-			<button class="primaryAction" type="submit">Update Profile</button>
+			<button class="primaryAction" type="submit">更新个人信息</button>
 		</form>
 	</div>
 </div>

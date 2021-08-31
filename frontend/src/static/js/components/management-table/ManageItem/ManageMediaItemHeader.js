@@ -41,13 +41,13 @@ export function ManageMediaItemHeader(props) {
           </span>
         </div>
       </div>
-      <div className="mi-author">Author</div>
-      <div className="mi-type">Media type</div>
-      <div className="mi-encoding">Encoding status</div>
-      <div className="mi-state">State</div>
-      <div className="mi-reviewed">Reviewed</div>
-      <div className="mi-featured">Featured</div>
-      <div className="mi-reported">Reported</div>
+      <div className="mi-author">作者</div>
+      <div className="mi-type">媒体类型</div>
+      <div className="mi-encoding">编码状态</div>
+      <div className="mi-state">状态</div>
+      <div className="mi-reviewed">已审查</div>
+      <div className="mi-featured">已精选</div>
+      <div className="mi-reported">已报告</div>
     </div>
   );
 }

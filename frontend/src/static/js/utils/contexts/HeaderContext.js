@@ -17,7 +17,7 @@ function popupTopNavItems() {
       items.push({
         link: links.user.addMedia,
         icon: 'video_call',
-        text: 'Upload media',
+        text: '上传媒体',
         itemAttr: {
           className: 'visible-only-in-small',
         },
@@ -27,7 +27,7 @@ function popupTopNavItems() {
         items.push({
           link: user.pages.media,
           icon: 'video_library',
-          text: 'My media',
+          text: '我的媒体',
         });
       }
     }
@@ -35,7 +35,7 @@ function popupTopNavItems() {
     items.push({
       link: links.signout,
       icon: 'exit_to_app',
-      text: 'Sign out',
+      text: '注销',
     });
   }
 
@@ -50,7 +50,7 @@ function popupMiddleNavItems() {
       itemType: 'open-subpage',
       icon: 'brightness_4',
       iconPos: 'left',
-      text: 'Switch theme',
+      text: '切换主题',
       buttonAttr: {
         className: 'change-page',
         'data-page-id': 'switch-theme',
@@ -64,7 +64,7 @@ function popupMiddleNavItems() {
         itemType: 'link',
         icon: 'login',
         iconPos: 'left',
-        text: 'Sign in',
+        text: '登录',
         link: links.signin,
         linkAttr: {
           className: hasThemeSwitcher ? 'visible-only-in-small' : 'visible-only-in-extra-small',
@@ -77,7 +77,7 @@ function popupMiddleNavItems() {
         itemType: 'link',
         icon: 'person_add',
         iconPos: 'left',
-        text: 'Register',
+        text: '注册',
         link: links.register,
         linkAttr: {
           className: hasThemeSwitcher ? 'visible-only-in-small' : 'visible-only-in-extra-small',
@@ -88,14 +88,14 @@ function popupMiddleNavItems() {
     items.push({
       link: links.user.editProfile,
       icon: 'brush',
-      text: 'Edit profile',
+      text: '编辑个人信息',
     });
 
     if (user.can.changePassword) {
       items.push({
         link: links.changePassword,
         icon: 'lock',
-        text: 'Change password',
+        text: '修改密码',
       });
     }
   }
@@ -110,7 +110,7 @@ function popupBottomNavItems() {
     items.push({
       link: links.admin,
       icon: 'admin_panel_settings',
-      text: 'MediaCMS administration',
+      text: 'MediaCMS 后台管理',
     });
   }
 

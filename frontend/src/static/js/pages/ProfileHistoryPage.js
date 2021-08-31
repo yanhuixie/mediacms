@@ -62,5 +62,5 @@ ProfileHistoryPage.propTypes = {
 };
 
 ProfileHistoryPage.defaultProps = {
-  title: 'History',
+  title: '历史',
 };

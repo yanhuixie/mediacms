@@ -136,7 +136,7 @@ function ManageItemMediaActions(props) {
           <div className="popup-message">
             <span className="popup-message-title">Media removal</span>
             <span className="popup-message-main">
-              {"You're willing to remove media" + (void 0 !== props.title ? ' "' + props.title + '"' : '')}?
+              {"您确定要删除媒体" + (void 0 !== props.title ? ' "' + props.title + '"' : '')}?
             </span>
           </div>
           <hr />

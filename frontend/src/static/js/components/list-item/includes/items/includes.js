@@ -44,13 +44,13 @@ export function ItemTitleLink(props) {
 }
 
 export function UserItemMemberSince(props) {
-  return <time key="member-since">Member for {format(new Date(props.date)).replace(' ago', '')}</time>;
+  return <time key="member-since">成为成员 {format(new Date(props.date)).replace(' ago', '')}</time>;
 }
 
 export function TaxonomyItemMediaCount(props) {
   return (
     <span key="item-media-count" className="item-media-count">
-      {' ' + props.count} media
+      {' ' + props.count} 媒体
     </span>
   );
 }

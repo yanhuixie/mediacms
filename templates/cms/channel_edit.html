@@ -6,7 +6,7 @@
 {% block innercontent %}
 <div class="user-action-form-wrap">
 	<div class="user-action-form-inner">
-		<h1>Edit Channel</h1>
+		<h1>编辑频道</h1>
 		<form enctype="multipart/form-data" action="" method="post" class="post-form"> {% csrf_token %}
 			{{ form|crispy }}
 			<button class="primaryAction" type="submit">Update Channel</button>

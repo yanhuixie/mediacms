@@ -4,11 +4,11 @@ export function init(settings) {
   TAXONOMIES = {
     tags: {
       enabled: false,
-      title: 'Tags',
+      title: '标签',
     },
     categories: {
       enabled: false,
-      title: 'Categories',
+      title: '分类',
     },
   };
 

@@ -78,9 +78,9 @@ function headerPopupPages(user, popupNavItems, hasHeaderThemeSwitcher) {
 function UploadMediaButton({ user, links }) {
   return !user.is.anonymous && user.can.addMedia ? (
     <div className={'hidden-only-in-small'}>
-      <CircleIconButton type="link" href={links.user.addMedia} title="Upload media">
+      <CircleIconButton type="link" href={links.user.addMedia} title="上传媒体">
         <MaterialIcon type="video_call" />
-        <span className="hidden-txt">Upload media</span>
+        <span className="hidden-txt">上传媒体</span>
       </CircleIconButton>
     </div>
   ) : null;
@@ -95,9 +95,9 @@ function LoginButton({ user, link, hasHeaderThemeSwitcher }) {
         className={
           'button-link sign-in' + (hasHeaderThemeSwitcher ? ' hidden-only-in-small' : ' hidden-only-in-extra-small')
         }
-        title="Sign in"
+        title="登录"
       >
-        Sign in
+        登录
       </a>
     </div>
   ) : null;
@@ -112,9 +112,9 @@ function RegisterButton({ user, link, hasHeaderThemeSwitcher }) {
           'button-link register-link' +
           (hasHeaderThemeSwitcher ? ' hidden-only-in-small' : ' hidden-only-in-extra-small')
         }
-        title="Register"
+        title="注册"
       >
-        Register
+        注册
       </a>
     </div>
   ) : null;

@@ -88,4 +88,4 @@ urlpatterns = [
     re_path(r"^manage/comments$", views.manage_comments, name="manage_comments"),
     re_path(r"^manage/media$", views.manage_media, name="manage_media"),
     re_path(r"^manage/users$", views.manage_users, name="manage_users"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=str(settings.MEDIA_ROOT))

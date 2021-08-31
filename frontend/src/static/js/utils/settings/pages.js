@@ -4,27 +4,27 @@ export function init(settings) {
   PAGES = {
     latest: {
       enabled: false,
-      title: 'Recent uploads',
+      title: '最新',
     },
     featured: {
       enabled: false,
-      title: 'Featured',
+      title: '精选',
     },
     recommended: {
       enabled: false,
-      title: 'Recommended',
+      title: '推荐',
     },
     members: {
       enabled: false,
-      title: 'Members',
+      title: '成员',
     },
     liked: {
       enabled: false,
-      title: 'Liked media',
+      title: '喜欢的',
     },
     history: {
       enabled: false,
-      title: 'History',
+      title: '历史',
     },
   };
 

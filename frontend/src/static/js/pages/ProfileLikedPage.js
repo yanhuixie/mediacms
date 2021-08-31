@@ -62,5 +62,5 @@ ProfileLikedPage.propTypes = {
 };
 
 ProfileLikedPage.defaultProps = {
-  title: 'Liked media',
+  title: '喜欢的媒体',
 };

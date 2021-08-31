@@ -94,29 +94,29 @@ class LoginSerializer(serializers.Serializer):
         password = data.get('password', None)
 
         if settings.ACCOUNT_AUTHENTICATION_METHOD == 'username' and not username:
-            raise serializers.ValidationError('username is required to log in.')
+            raise serializers.ValidationError('登录时需要输入用户名。')
         else:
             username_or_email = username
         if settings.ACCOUNT_AUTHENTICATION_METHOD == 'email' and not email:
-            raise serializers.ValidationError('email is required to log in.')
+            raise serializers.ValidationError('登录时需要使用电子邮件。')
         else:
             username_or_email = email
 
         if settings.ACCOUNT_AUTHENTICATION_METHOD == 'username_email' and not (username or email):
-            raise serializers.ValidationError('username or email is required to log in.')
+            raise serializers.ValidationError('登录时需要输入用户名或电子邮件。')
         else:
             username_or_email = username or email
 
         if password is None:
-            raise serializers.ValidationError('password is required to log in.')
+            raise serializers.ValidationError('登录时需要输入密码。')
 
         user = authenticate(username=username_or_email, password=password)
 
         if user is None:
-            raise serializers.ValidationError('User not found.')
+            raise serializers.ValidationError('用户没有找到。')
 
         if not user.is_active:
-            raise serializers.ValidationError('User has been deactivated.')
+            raise serializers.ValidationError('用户已被停用。')
 
         token = Token.objects.filter(user=user).first()
         if not token:
