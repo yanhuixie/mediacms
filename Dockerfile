@@ -7,6 +7,11 @@ ENV VIRTUAL_ENV=/home/mediacms.io
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV PIP_NO_CACHE_DIR=1
 
+RUN apt-get update -y && apt-get -y upgrade && apt-get install --no-install-recommends axel -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get purge --auto-remove && \
+    apt-get clean
+
 RUN mkdir -p /home/mediacms.io/mediacms/{logs} && cd /home/mediacms.io && python3 -m venv $VIRTUAL_ENV
 
 # Install dependencies:
@@ -16,7 +21,7 @@ RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 COPY . /home/mediacms.io/mediacms
 WORKDIR /home/mediacms.io/mediacms
 
-RUN wget -q http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip && \
+RUN axel -qn 5 http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip && \
     unzip Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip -d ../bento4 && \
     mv ../bento4/Bento4-SDK-1-6-0-637.x86_64-unknown-linux/* ../bento4/ && \
     rm -rf ../bento4/Bento4-SDK-1-6-0-637.x86_64-unknown-linux && \
@@ -47,12 +52,12 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 COPY --chown=www-data:www-data --from=compile-image /home/mediacms.io /home/mediacms.io
 
 RUN apt-get update -y && apt-get -y upgrade && apt-get install --no-install-recommends \
-    supervisor nginx imagemagick procps wget xz-utils -y && \
+    supervisor nginx imagemagick procps axel xz-utils -y && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get purge --auto-remove && \
     apt-get clean
 
-RUN wget -q https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \
+RUN axel -qn 5 https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \
     mkdir -p ffmpeg-tmp && \
     tar -xf ffmpeg-release-amd64-static.tar.xz --strip-components 1 -C ffmpeg-tmp && \
     cp -v ffmpeg-tmp/ffmpeg ffmpeg-tmp/ffprobe ffmpeg-tmp/qt-faststart /usr/local/bin && \
