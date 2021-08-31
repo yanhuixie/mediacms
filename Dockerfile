@@ -11,7 +11,7 @@ RUN mkdir -p /home/mediacms.io/mediacms/{logs} && cd /home/mediacms.io && python
 
 # Install dependencies:
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 COPY . /home/mediacms.io/mediacms
 WORKDIR /home/mediacms.io/mediacms
