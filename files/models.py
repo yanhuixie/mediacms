@@ -1080,7 +1080,7 @@ class Encoding(models.Model):
 
     media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="encodings")
 
-    media_file = models.FileField("媒体文件", "encoding file", upload_to=encoding_media_file_path, blank=True, max_length=500)
+    media_file = models.FileField("媒体文件", upload_to=encoding_media_file_path, blank=True, max_length=500)
 
     profile = models.ForeignKey(EncodeProfile, on_delete=models.CASCADE)
 
