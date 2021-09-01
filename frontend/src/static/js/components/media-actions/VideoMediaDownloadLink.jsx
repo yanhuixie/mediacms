@@ -71,7 +71,7 @@ export function VideoMediaDownloadLink(props) {
           <CircleIconButton type="span">
             <MaterialIcon type="arrow_downward" />
           </CircleIconButton>
-          <span>DOWNLOAD</span>
+          <span>下载</span>
         </button>
       </PopupTrigger>
 

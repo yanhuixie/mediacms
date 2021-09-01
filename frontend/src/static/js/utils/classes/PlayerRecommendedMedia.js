@@ -27,7 +27,7 @@ function itemAuthor(author) {
 }
 
 function itemViews(views, hideViews) {
-  return hideViews ? '' : '<span class="more-media-views">' + views + '</span>';
+  return hideViews ? '' : '<span class="more-media-views">' + 播放 + '</span>';
 }
 
 function itemMeta(author, views, hideViews) {

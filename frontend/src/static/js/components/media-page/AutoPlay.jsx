@@ -38,10 +38,10 @@ export function AutoPlay(props) {
   return !media ? null : (
     <div className="auto-play">
       <div className="auto-play-header">
-        <div className="next-label">Up next</div>
+        <div className="next-label">下一个播放</div>
         <div className="auto-play-option">
           <label className="checkbox-label right-selectbox" tabIndex={0} onKeyPress={onKeyPress}>
-            AUTOPLAY
+            自动播放
             <span className="checkbox-switcher-wrap">
               <span className="checkbox-switcher">
                 <input

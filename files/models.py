@@ -122,7 +122,7 @@ class Media(models.Model):
 
     allow_download = models.BooleanField("允许下载", default=True, help_text="是否显示下载媒体选项")
 
-    category = models.ManyToManyField("Category", blank=True, help_text="媒体可以是一个或多个类别的一部分")
+    category = models.ManyToManyField("Category", blank=True, help_text="媒体可以是一个或多个类别的一部分", verbose_name="分类")
 
     channel = models.ForeignKey(
         "users.Channel",
@@ -289,7 +289,7 @@ class Media(models.Model):
         max_length=500,
     )
 
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE, help_text="上传媒体的用户")
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, help_text="上传媒体的用户", verbose_name='用户')
 
     user_featured = models.BooleanField("用户精选", default=False, help_text="被用户精选")
 
@@ -988,7 +988,7 @@ class Tag(models.Model):
 
     title = models.CharField("标题", max_length=100, unique=True, db_index=True)
 
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, blank=True, null=True, verbose_name='用户')
 
     media_count = models.IntegerField("媒体数量", default=0, help_text="number of media")
 
@@ -1078,11 +1078,11 @@ class Encoding(models.Model):
 
     md5sum = models.CharField("MD5", max_length=50, blank=True, null=True)
 
-    media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="encodings")
+    media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="encodings", verbose_name='媒体')
 
     media_file = models.FileField("媒体文件", upload_to=encoding_media_file_path, blank=True, max_length=500)
 
-    profile = models.ForeignKey(EncodeProfile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(EncodeProfile, on_delete=models.CASCADE, verbose_name='个人信息')
 
     progress = models.PositiveSmallIntegerField("进度", default=0)
 
@@ -1170,9 +1170,9 @@ class Language(models.Model):
 class Subtitle(models.Model):
     """Subtitles model"""
 
-    language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, verbose_name='语言')
 
-    media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="subtitles")
+    media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="subtitles", verbose_name='媒体')
 
     subtitle_file = models.FileField(
         "字幕/CC文件",
@@ -1181,7 +1181,7 @@ class Subtitle(models.Model):
         max_length=500,
     )
 
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name='用户')
 
     def __str__(self):
         return "{0}-{1}".format(self.media.title, self.language.title)
@@ -1223,13 +1223,13 @@ class Rating(models.Model):
 
     add_date = models.DateTimeField("添加日期", auto_now_add=True)
 
-    media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="ratings")
+    media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name="ratings", verbose_name='媒体')
 
-    rating_category = models.ForeignKey(RatingCategory, on_delete=models.CASCADE)
+    rating_category = models.ForeignKey(RatingCategory, on_delete=models.CASCADE, verbose_name='评分类型')
 
     score = models.IntegerField("评分", validators=[validate_rating])
 
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name='用户')
 
     class Meta:
         verbose_name = '评分'
@@ -1259,7 +1259,7 @@ class Playlist(models.Model):
 
     uid = models.UUIDField("UUID", unique=True, default=uuid.uuid4)
 
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE, db_index=True, related_name="playlists")
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, db_index=True, related_name="playlists", verbose_name='用户')
 
     def __str__(self):
         return self.title
@@ -1328,9 +1328,9 @@ class PlaylistMedia(models.Model):
 
     action_date = models.DateTimeField("启用日时", auto_now=True)
 
-    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    media = models.ForeignKey(Media, on_delete=models.CASCADE, verbose_name='媒体')
 
-    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
+    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, verbose_name='播放列表')
 
     ordering = models.IntegerField("排序", default=1)
 
@@ -1345,7 +1345,7 @@ class Comment(MPTTModel):
 
     add_date = models.DateTimeField("添加日时", auto_now_add=True)
 
-    media = models.ForeignKey(Media, on_delete=models.CASCADE, db_index=True, related_name="comments")
+    media = models.ForeignKey(Media, on_delete=models.CASCADE, db_index=True, related_name="comments", verbose_name='媒体')
 
     parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
 
@@ -1353,7 +1353,7 @@ class Comment(MPTTModel):
 
     uid = models.UUIDField("UUID", unique=True, default=uuid.uuid4)
 
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE, db_index=True)
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, db_index=True, verbose_name='用户')
 
     class MPTTMeta:
         order_insertion_by = ["add_date"]

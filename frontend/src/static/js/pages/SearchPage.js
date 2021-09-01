@@ -113,11 +113,11 @@ export class SearchPage extends Page {
         title = 'No results for "' + this.state.searchQuery + '"';
       } else {
         if (this.state.searchCategories) {
-          title = null === this.state.resultsCount || 0 === this.state.resultsCount ? 'No' : this.state.resultsCount;
-          title += ' media in category "' + this.state.searchCategories + '"';
+          title = null === this.state.resultsCount || 0 === this.state.resultsCount ? '没有' : this.state.resultsCount;
+          title += ' 媒体在该分类 "' + this.state.searchCategories + '"';
         } else if (this.state.searchTags) {
-          title = null === this.state.resultsCount || 0 === this.state.resultsCount ? 'No' : this.state.resultsCount;
-          title += ' media in tag "' + this.state.searchTags + '"';
+          title = null === this.state.resultsCount || 0 === this.state.resultsCount ? '没有' : this.state.resultsCount;
+          title += ' 媒体在该标签 "' + this.state.searchTags + '"';
         } else {
           if (null === this.state.resultsCount || 0 === this.state.resultsCount) {
             title = 'No results for "' + this.state.searchQuery + '"';

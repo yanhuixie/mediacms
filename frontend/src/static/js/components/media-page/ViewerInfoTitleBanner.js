@@ -151,7 +151,7 @@ export default class ViewerInfoTitleBanner extends React.PureComponent {
 
           {displayViews ? (
             <div className="media-views">
-              {formatViewsNumber(this.props.views, true)} {1 >= this.props.views ? 'view' : 'views'}
+              {formatViewsNumber(this.props.views, true)} {1 >= this.props.views ? '播放' : '播放'}
             </div>
           ) : null}
 

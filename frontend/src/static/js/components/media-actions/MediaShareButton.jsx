@@ -54,7 +54,7 @@ export function MediaShareButton(props) {
           <CircleIconButton type="span">
             <MaterialIcon type="share" />
           </CircleIconButton>
-          <span>SHARE</span>
+          <span>分享</span>
         </button>
       </PopupTrigger>
 

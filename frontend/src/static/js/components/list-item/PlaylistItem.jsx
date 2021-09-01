@@ -17,7 +17,7 @@ export function PlaylistItem(props) {
         ? Date.parse(props.publish_date)
         : Date.parse(new Date(props.publish_date));
 
-    return <PlaylistItemMetaDate dateTime={publishDateTime} text={'Created ' + publishDate} />;
+    return <PlaylistItemMetaDate dateTime={publishDateTime} text={'创建于 ' + publishDate} />;
   }
 
   return (
@@ -54,7 +54,7 @@ export function PlaylistItem(props) {
           {titleComponent()}
           {metaComponents()}
           <a href={props.link} title="" className="view-full-playlist">
-            VIEW FULL PLAYLIST
+            播放整个列表
           </a>
         </UnderThumbWrapper>
       </div>

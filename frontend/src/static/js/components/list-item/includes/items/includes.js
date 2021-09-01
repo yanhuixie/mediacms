@@ -73,8 +73,8 @@ export function MediaItemEditLink(props) {
   }
 
   return !link ? null : (
-    <a href={link} title="Edit media" className="item-edit-link">
-      EDIT MEDIA
+    <a href={link} title="编辑媒体" className="item-edit-link">
+      编辑媒体
     </a>
   );
 }
@@ -135,7 +135,7 @@ export function MediaItemAuthorLink(props) {
 
 export function MediaItemMetaViews(props) {
   return (
-    <span className="item-views">{formatViewsNumber(props.views) + ' ' + (1 >= props.views ? 'view' : 'views')}</span>
+    <span className="item-views">{formatViewsNumber(props.views) + ' ' + (1 >= props.views ? '播放' : '播放')}</span>
   );
 }
 

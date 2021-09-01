@@ -189,8 +189,8 @@ function BulkActions(props) {
   return (
     <div className="manage-items-bulk-action">
       <select value={selectedBulkAction} onChange={onBulkActionSelect}>
-        <option value="">Bulk actions</option>
-        <option value="delete">Delete selected</option>
+        <option value="">批量操作</option>
+        <option value="delete">删除选中的</option>
       </select>
 
       {!selectedItemsSize || !selectedBulkAction ? null : (
@@ -202,8 +202,8 @@ function BulkActions(props) {
       <PopupContent contentRef={popupContentRef}>
         <PopupMain>
           <div className="popup-message">
-            <span className="popup-message-title">Bulk removal</span>
-            <span className="popup-message-main">You're willing to remove selected items permanently?</span>
+            <span className="popup-message-title">批量删除</span>
+            <span className="popup-message-main">你确定要永久移除所选的记录吗?</span>
           </div>
           <hr />
           <span className="popup-message-bottom">

@@ -48,7 +48,7 @@ function MediaAuthorBanner(props) {
           </a>
         </span>
         {PageStore.get('config-media-item').displayPublishDate && props.published ? (
-          <span className="author-banner-date">Published on {publishedOnDate(new Date(props.published))}</span>
+          <span className="author-banner-date">发布于 {publishedOnDate(new Date(props.published))}</span>
         ) : null}
       </div>
     </div>
@@ -76,8 +76,8 @@ function EditMediaButton(props) {
   }
 
   return (
-    <a href={link} rel="nofollow" title="Edit media" className="edit-media">
-      EDIT MEDIA
+    <a href={link} rel="nofollow" title="编辑媒体" className="edit-media">
+      编辑媒体
     </a>
   );
 }
@@ -90,8 +90,8 @@ function EditSubtitleButton(props) {
   }
 
   return (
-    <a href={link} rel="nofollow" title="Edit subtitle" className="edit-subtitle">
-      EDIT SUBTITLE
+    <a href={link} rel="nofollow" title="编辑字幕" className="edit-subtitle">
+      编辑字幕
     </a>
   );
 }

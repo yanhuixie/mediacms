@@ -100,13 +100,13 @@ function ManageItemCommentActions(props) {
     <div ref={props.containerRef} className="actions">
       {void 0 === props.media_url ? null : (
         <span>
-          <a href={props.media_url}>View media</a>
+          <a href={props.media_url}>查看媒体</a>
         </span>
       )}
       {void 0 === props.media_url || props.hideDeleteAction ? null : <span className="seperator">|</span>}
 
       <PopupTrigger contentRef={popupContentRef}>
-        <button title="Delete comment">Delete</button>
+        <button title="Delete comment">删除</button>
       </PopupTrigger>
 
       <PopupContent contentRef={popupContentRef} showCallback={onPopupShow} hideCallback={onPopupHide}>

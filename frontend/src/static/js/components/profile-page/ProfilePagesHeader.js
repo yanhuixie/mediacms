@@ -531,7 +531,7 @@ export default function ProfilePagesHeader(props) {
           <span className="delete-profile-wrap">
             <PopupTrigger contentRef={popupContentRef}>
               <button className="delete-profile" title="">
-                REMOVE PROFILE
+                删除个人信息
               </button>
             </PopupTrigger>
 
@@ -539,7 +539,7 @@ export default function ProfilePagesHeader(props) {
               <PopupMain>
                 <div className="popup-message">
                   <span className="popup-message-title">Profile removal</span>
-                  <span className="popup-message-main">You're willing to remove profile permanently?</span>
+                  <span className="popup-message-main">您确定要永久删除个人信息?</span>
                 </div>
                 <hr />
                 <span className="popup-message-bottom">

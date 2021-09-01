@@ -94,7 +94,7 @@ function optionsItems(userCan, mediaData, allowDownload, downloadLink, mediaRepo
   if (mediaIsVideo && userCan.editMedia) {
     items.push({
       itemType: 'open-subpage',
-      text: 'Status info',
+      text: '状态信息',
       icon: 'info',
       buttonAttr: {
         className: 'change-page',
@@ -116,7 +116,7 @@ function optionsItems(userCan, mediaData, allowDownload, downloadLink, mediaRepo
     } else {
       items.push({
         itemType: 'open-subpage',
-        text: 'Report',
+        text: '报告',
         icon: 'flag',
         buttonAttr: {
           className: 'change-page' + (mediaReportedTimes ? ' loggedin-media-reported' : ''),
@@ -173,17 +173,17 @@ function getPopupPages(userCan, mediaData, allowDownload, downloadLink, mediaRep
         <PopupMain>
           <ul className="media-status-info">
             <li>
-              Media type: <span>{mediaType}</span>
+              媒体类型: <span>{mediaType}</span>
             </li>
             <li>
-              State: <span>{mediaState}</span>
+              隐私状态: <span>{mediaState}</span>
             </li>
             <li>
-              Review state: <span>{mediaIsReviewed ? 'Is reviewed' : 'Pending review'}</span>
+              审查状态: <span>{mediaIsReviewed ? 'Is reviewed' : 'Pending review'}</span>
             </li>
             {mediaIsVideo ? (
               <li>
-                Encoding Status: <span>{mediaEncodingStatus}</span>
+                编码状态: <span>{mediaEncodingStatus}</span>
               </li>
             ) : null}
             {mediaReportedTimes ? (
