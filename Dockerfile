@@ -16,7 +16,7 @@ RUN mkdir -p /home/mediacms.io/mediacms/{logs} && cd /home/mediacms.io && python
 
 # Install dependencies:
 COPY requirements.txt .
-RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 
 RUN axel -qn 5 -o / http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip
 
